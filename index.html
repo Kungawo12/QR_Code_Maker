@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Maker</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+    <h1>QR Code Maker</h1>
+    <form id="qrForm">
+        <label for="website_link">Website Link:</label>
+        <input type="text" id="website_link" name="website_link" required>
+        <br>
+    <br>
+        <label for = "website_name">Website Name:</label>
+        <input type="text" id="website_name" name="website_name" required>
+    <br>
+    <br>
+        <button type="submit">Generate QR Code</button>
+    </form>
+    <div id="qrcode"></div>
+
+    <a id="downloadLink" href="#" download="qrcode.png" style="display:none;">Download QR Code</a>
+
+    <script>
+        document.getElementById('qrForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const website = document.getElementById('website_link').value;
+            const qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = '';
+            const canvas = document.createElement('canvas');
+            qrcodeContainer.appendChild(canvas);
+            QRCode.toCanvas(canvas, website, function (error) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    console.log('QR code generated!');
+                    const downloadLink = document.getElementById('downloadLink');
+                    downloadLink.href = canvas.toDataURL('image/png');
+                    downloadLink.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
